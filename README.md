@@ -52,6 +52,7 @@ Returns all data for the logger within the date range
 <pre>
 [{
   serial: string,
+  name: string,
   epochs: [
     {
       battery: double,
@@ -82,6 +83,7 @@ Example Output:
 <pre>
 [{
   "serial": "123456",
+  "name": "123456"
   "epochs": [
     {
       "battery": 99.9,
@@ -129,6 +131,7 @@ Returns all info for the logger within the date range
 <pre>
 [{
   serial: string,
+  name: string,
   epochs: [
     {
       battery: double,
@@ -151,6 +154,7 @@ https://leakvisiondata.atriumiot.com/logger/info/12345/2021-01-01/2021-01-02/000
 <pre>
 [{
   "serial": "123456",
+  "name": "123456",
   "epochs": [
     {
       "battery": 99.9,
