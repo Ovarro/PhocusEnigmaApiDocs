@@ -559,6 +559,11 @@ Returns logger report csv
 
 https://leakvisiondata.atriumiot.com/report/logger/2021-01-01/00000000-0000-0000-0000-000000000000
 
+<pre>
+  DMA,ID,Logger,Commissioned,Latest,Latitude,Longitude,Battery,Signal
+  Dma,1234,123456,22/09/2021,05/12/2022,50.84410095,-1.064781666,80.56%,59%
+</pre>
+
 <br />
 
 ## dmareport(begin, end, token)
