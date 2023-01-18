@@ -8,6 +8,7 @@ This API provides access to the data recorded by a Phocus/Enigma logger. To use 
 
 # Methods
 
+- [*alllogger*](#loggeralltoken): Returns all loggers for a token.
 - [*logger*](#loggerserial-begin-end-token): Returns data for logger specified by date time range.
 - [*loggerinfo*](#loggerinfoserial-begin-end-token): Returns info for logger specified by date time range.
 - [*signal*](#signalserial-begin-end-token): Returns signal for logger specified by date time range.
@@ -28,6 +29,46 @@ This API provides access to the data recorded by a Phocus/Enigma logger. To use 
 
 # API
 
+## loggerall(token)
+
+##### Purpose
+Returns all loggers for a token
+
+##### Signature
+  1. Endpoint
+    - https://leakvisiondata.atriumiot.com/logger/all/token
+  2. Params
+   - token: (string)
+     - api authorization token.
+      
+##### Return Value
+
+<pre>
+[
+  string
+]
+</pre>
+##### Example
+
+https://leakvisiondata.atriumiot.com/logger/all/00000000-0000-0000-0000-000000000000
+
+Example Output:
+
+<pre>
+[
+  "111111",
+  "111112",
+  "111113",
+  "111114",
+  "111115",
+  "111116",
+  "111117",
+  "111118",
+  "111119"
+]
+</pre>
+
+<br />
 
 ## logger(serial, begin, end, token)
 
