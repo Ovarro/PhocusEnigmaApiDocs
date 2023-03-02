@@ -1,6 +1,6 @@
 # Ovarro LeakVision Phocus/Enigma Data API documentation
 
-Questions? Find us at [development@ovarro.com](mailto:development@primayer.co.uk)
+Questions? Find us at [support.ld@ovarro.com](mailto:support.ld@primayer.co.uk)
 
 # Phocus/Enigma Data Access
 
