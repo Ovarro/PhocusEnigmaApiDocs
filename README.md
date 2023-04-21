@@ -421,6 +421,8 @@ Returns PoI items for group
       correction: double,
       filterMin: double,
       filterMax: double,
+      latitude: double,
+      longitude: double,
       pipes: [
         {
           material: int,
@@ -500,6 +502,8 @@ https://leakvisiondata.atriumiot.com/group/poi/1234/00000000-0000-0000-0000-0000
       "correction": -123,
       "filterMin": 375,
       "filterMax": 675,
+      "latitude": 50.1,
+      "longitude": -1.6,
       "pipes": [
         {
           "material": 0,
