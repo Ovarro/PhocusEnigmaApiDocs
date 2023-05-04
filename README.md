@@ -336,7 +336,9 @@ Returns leak summary for group
   peakMs: double,
   correction: double,
   filterMin: string,
-  filterMax: string
+  filterMax: string,
+  latitude: double,
+  longitude: double
 }]
 </pre>
 
@@ -355,7 +357,9 @@ https://leakvisiondata.atriumiot.com/group/1234/2021-01-01/00000000-0000-0000-00
   "peakMs": 123,
   "correction": -1234,
   "filterMin": "275",
-  "filterMax": "575"
+  "filterMax": "575",
+  "latitude": 50,
+  "longitude" -1
 }]
 </pre>
 
