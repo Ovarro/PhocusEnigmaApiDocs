@@ -393,6 +393,8 @@ Returns PoI items for group
     completed: bool,
     paused: bool,
     escalated: bool,
+    technicianName: string,
+    firstOnSite: string
     leaks: [
       {
         leakType: int,
@@ -474,6 +476,8 @@ https://leakvisiondata.atriumiot.com/group/poi/1234/00000000-0000-0000-0000-0000
     "completed": true,
     "paused": false,
     "escalated": false,
+    "technicianName": "Test Name",
+    "firstOnSite": "2022-01-20"
     "leaks": [
       {
         "leakType": 1,
