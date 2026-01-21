@@ -1,6 +1,6 @@
 # Ovarro LeakVision Phocus/Enigma Data API documentation
 
-Questions? Find us at [development@ovarro.com](mailto:development@primayer.co.uk)
+Questions? Find us at [support.ld@ovarro.com](mailto:support.ld@primayer.co.uk)
 
 # Phocus/Enigma Data Access
 
@@ -336,7 +336,9 @@ Returns leak summary for group
   peakMs: double,
   correction: double,
   filterMin: string,
-  filterMax: string
+  filterMax: string,
+  latitude: double,
+  longitude: double
 }]
 </pre>
 
@@ -355,7 +357,9 @@ https://leakvisiondata.atriumiot.com/group/1234/2021-01-01/00000000-0000-0000-00
   "peakMs": 123,
   "correction": -1234,
   "filterMin": "275",
-  "filterMax": "575"
+  "filterMax": "575",
+  "latitude": 50,
+  "longitude" -1
 }]
 </pre>
 
@@ -389,6 +393,8 @@ Returns PoI items for group
     completed: bool,
     paused: bool,
     escalated: bool,
+    technicianName: string,
+    firstOnSite: string
     leaks: [
       {
         leakType: int,
@@ -421,6 +427,8 @@ Returns PoI items for group
       correction: double,
       filterMin: double,
       filterMax: double,
+      latitude: double,
+      longitude: double,
       pipes: [
         {
           material: int,
@@ -468,6 +476,8 @@ https://leakvisiondata.atriumiot.com/group/poi/1234/00000000-0000-0000-0000-0000
     "completed": true,
     "paused": false,
     "escalated": false,
+    "technicianName": "Test Name",
+    "firstOnSite": "2022-01-20"
     "leaks": [
       {
         "leakType": 1,
@@ -500,6 +510,8 @@ https://leakvisiondata.atriumiot.com/group/poi/1234/00000000-0000-0000-0000-0000
       "correction": -123,
       "filterMin": 375,
       "filterMax": 675,
+      "latitude": 50.1,
+      "longitude": -1.6,
       "pipes": [
         {
           "material": 0,
