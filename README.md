@@ -18,6 +18,10 @@ This API provides access to the data recorded by a Phocus/Enigma logger. To use 
 - [*groupaudio*](#groupaudioid-date-token): Returns audio for group.
 - [*loggerreport*](#loggerreportdate-token): CSV logger report.
 - [*dmareport*](#dmareportbegin-end-token): CSV Phocus Dma report.
+- [*poistatus*](#poistatustoken): Update the status of a PoI.
+- [*poiunassign*](#poiunassigntoken): Remove technician assignment.
+- [*poinoleak*](#poinoleaktoken): Update or set the no leak found meta data of a PoI.
+- [*poileak*](#poileaktoken): Update or set the leak found meta data of a PoI.
 
 #### Enumerations
 - [*PoI Status*](#poi-status): PoI status enums.
@@ -641,6 +645,198 @@ Returns Phocus DMA report csv
 ##### Example
 
 https://leakvisiondata.atriumiot.com/report/dma/2021-01-01%2000:00/2021-01-02%2000:00/00000000-0000-0000-0000-000000000000
+
+<br />
+
+## poistatus(token)
+
+##### Purpose
+Update the status enum of a POI
+
+##### Signature
+   1. Endpoint
+    - https://leakvisiondata.atriumiot.com/poi/status/token
+   2. Params
+    - token: (string)
+     - api authorization token.
+   3. Method
+    - PUT
+
+##### Body
+
+<pre>
+{
+  "groupId": int,
+  "poiName": string,
+  "status": int (see POI status for values)
+}
+</pre>
+  
+##### Return Value
+
+<pre>
+Boolean
+</pre>
+
+##### Example
+
+https://leakvisiondata.atriumiot.com/poi/status/00000000-0000-0000-0000-000000000000
+<pre>
+{
+  "groupId": 123456,
+  "poiName": "poi-12345",
+  "status": 2
+}
+</pre>
+
+<pre>
+true
+</pre>
+
+<br />
+
+## poiunassign(token)
+
+##### Purpose
+Unassign technician from a POI
+
+##### Signature
+   1. Endpoint
+    - https://leakvisiondata.atriumiot.com/poi/unassign/token
+   2. Params
+    - token: (string)
+     - api authorization token.
+   3. Method
+    - PUT
+
+##### Body
+
+<pre>
+{
+  "groupId": int,
+  "poiName": string,
+}
+</pre>
+  
+##### Return Value
+
+<pre>
+Boolean
+</pre>
+
+##### Example
+
+https://leakvisiondata.atriumiot.com/poi/unassign/00000000-0000-0000-0000-000000000000
+<pre>
+{
+  "groupId": 123456,
+  "poiName": "poi-12345",
+}
+</pre>
+
+<pre>
+true
+</pre>
+
+<br />
+
+## poinoleak(token)
+
+##### Purpose
+Update or set no leak found meta data in a POI
+
+##### Signature
+   1. Endpoint
+    - https://leakvisiondata.atriumiot.com/poi/noleak/token
+   2. Params
+    - token: (string)
+     - api authorization token.
+   3. Method
+    - PUT
+
+##### Body
+
+<pre>
+{
+  "groupId": int,
+  "poiName": string,
+  "dateFound": string (yyyy-MM-dd or yyyy-MM-dd HH:mm),
+  "equipmentEnums": array of int (see methods for values),
+  "reasonEnum": int (see reasons for values)
+}
+</pre>
+  
+##### Return Value
+
+<pre>
+Boolean
+</pre>
+
+##### Example
+
+https://leakvisiondata.atriumiot.com/poi/noleak/00000000-0000-0000-0000-000000000000
+<pre>
+{
+  "groupId": 123456,
+  "poiName": "poi-12345",
+  "dateFound": "2026-01-21",
+  "equipmentEnums": [1,3],
+  "reasonEnum": 1
+}
+</pre>
+
+<pre>
+true
+</pre>
+
+<br />
+
+## poileak(token)
+
+##### Purpose
+Update or set leak found meta data in a POI
+
+##### Signature
+   1. Endpoint
+    - https://leakvisiondata.atriumiot.com/poi/leak/token
+   2. Params
+    - token: (string)
+     - api authorization token.
+   3. Method
+    - PUT
+
+##### Body
+
+<pre>
+{
+  "groupId": int,
+  "poiName": string,
+  "repairedDate": string (yyyy-MM-dd or yyyy-MM-dd HH:mm),
+  "workOrder": string (if work order is empty, all found leaks in the POI will be updated)
+}
+</pre>
+  
+##### Return Value
+
+<pre>
+Boolean
+</pre>
+
+##### Example
+
+https://leakvisiondata.atriumiot.com/poi/leak/00000000-0000-0000-0000-000000000000
+<pre>
+{
+  "groupId": 123456,
+  "poiName": "poi-12345",
+  "repairedDate": "2026-01-21",
+  "workOrder": "WO-12345",
+}
+</pre>
+
+<pre>
+true
+</pre>
 
 <br />
 
