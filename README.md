@@ -4,24 +4,25 @@ Questions? Find us at [support.ld@ovarro.com](mailto:support.ld@primayer.co.uk)
 
 # Phocus/Enigma Data Access
 
-This API provides access to the data recorded by a Phocus/Enigma logger. To use the API third parties must provide an authorization token with each request. The authorization token can be found within the account management section of [Atrium](https://atriumiot.com/accountmanagement).
+This API provides access to the data recorded by a Phocus/Enigma logger. To use the API third parties must provide an authorization token with each request. The authorization token can be obtained by calling the auth endpoint with your Atrium credentials.
 
 # Methods
 
-- [*alllogger*](#loggeralltoken): Returns all loggers for a token.
-- [*logger*](#loggerserial-begin-end-token): Returns data for logger specified by date time range.
-- [*loggerinfo*](#loggerinfoserial-begin-end-token): Returns info for logger specified by date time range.
-- [*signal*](#signalserial-begin-end-token): Returns signal for logger specified by date time range.
-- [*summary*](#summarydate-token): Returns all Enigma groups with leak count.
-- [*group*](#groupid-date-token): Returns leak summary for group.
-- [*poi*](#poiid-token): Returns PoI items for group.
-- [*groupaudio*](#groupaudioid-date-token): Returns audio for group.
-- [*loggerreport*](#loggerreportdate-token): CSV logger report.
-- [*dmareport*](#dmareportbegin-end-token): CSV Phocus Dma report.
-- [*poistatus*](#poistatustoken): Update the status of a PoI.
-- [*poiunassign*](#poiunassigntoken): Remove technician assignment.
-- [*poinoleak*](#poinoleaktoken): Update or set the no leak found meta data of a PoI.
-- [*poileak*](#poileaktoken): Update or set the leak found meta data of a PoI.
+- [*auth*](#auth): Returns authentication bearer token.
+- [*alllogger*](#loggerall): Returns all loggers.
+- [*logger*](#loggerserial-begin-end): Returns data for logger specified by date time range.
+- [*loggerinfo*](#loggerinfoserial-begin-end): Returns info for logger specified by date time range.
+- [*signal*](#signalserial-begin-end): Returns signal for logger specified by date time range.
+- [*summary*](#summarydate): Returns all Enigma groups with leak count.
+- [*group*](#groupid-date): Returns leak summary for group.
+- [*poi*](#poiid): Returns PoI items for group.
+- [*groupaudio*](#groupaudioid-date): Returns audio for group.
+- [*loggerreport*](#loggerreportdate): CSV logger report.
+- [*dmareport*](#dmareportbegin-end): CSV Phocus Dma report.
+- [*poistatus*](#poistatus): Update the status of a PoI.
+- [*poiunassign*](#poiunassign): Remove technician assignment.
+- [*poinoleak*](#poinoleak): Update or set the no leak found meta data of a PoI.
+- [*poileak*](#poileak): Update or set the leak found meta data of a PoI.
 
 #### Enumerations
 - [*PoI Status*](#poi-status): PoI status enums.
@@ -33,17 +34,63 @@ This API provides access to the data recorded by a Phocus/Enigma logger. To use 
 
 # API
 
-## loggerall(token)
+## auth
 
 ##### Purpose
-Returns all loggers for a token
+Returns authentication bearer token. This token must be passed as an Authorization header for every request
+<pre>
+{
+  bearer {token}
+}
+</pre>
 
 ##### Signature
   1. Endpoint
-    - https://leakvisiondata.atriumiot.com/logger/all/token
-  2. Params
-   - token: (string)
-     - api authorization token.
+    - https://leakvisiondata.atriumiot.com/auth
+  2. Method
+    - POST
+
+##### Body
+
+<pre>
+{
+  "username": string,
+  "password": string,
+}
+</pre>
+
+##### Return Value
+
+<pre>
+[
+  string
+]
+</pre>
+
+##### Example
+
+https://leakvisiondata.atriumiot.com/auth
+<pre>
+{
+  "username": "user123",
+  "password": "myP4ssword!"
+}
+</pre>
+
+<pre>
+token
+</pre>
+
+<br />
+
+## loggerall
+
+##### Purpose
+Returns all loggers
+
+##### Signature
+  1. Endpoint
+    - https://leakvisiondata.atriumiot.com/v2/logger/all
       
 ##### Return Value
 
@@ -54,7 +101,7 @@ Returns all loggers for a token
 </pre>
 ##### Example
 
-https://leakvisiondata.atriumiot.com/logger/all/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/logger/all/
 
 Example Output:
 
@@ -74,14 +121,14 @@ Example Output:
 
 <br />
 
-## logger(serial, begin, end, token)
+## logger(serial, begin, end)
 
 ##### Purpose
 Returns all data for the logger within the date range
 
 ##### Signature
   1. Endpoint
-    - https://leakvisiondata.atriumiot.com/logger/serial/begin/end/token
+    - https://leakvisiondata.atriumiot.com/v2/logger/serial/begin/end
   2. Params
    - serial: (string)
      - logger serial number
@@ -89,8 +136,6 @@ Returns all data for the logger within the date range
      - Date at which to start querying logger data.
    - end: (string - yyyy-MM-dd)
      - Date at which to finish querying logger data.
-   - token: (string)
-     - api authorization token.
       
 ##### Return Value
 
@@ -121,7 +166,7 @@ Returns all data for the logger within the date range
 </pre>
 ##### Example
 
-https://leakvisiondata.atriumiot.com/logger/12345/2021-01-01/2021-01-02/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/logger/12345/2021-01-01/2021-01-02
 
 Example Output:
 
@@ -153,14 +198,14 @@ Example Output:
 
 <br />
 
-## loggerinfo(serial, begin, end, token)
+## loggerinfo(serial, begin, end)
 
 ##### Purpose
 Returns all info for the logger within the date range
 
 ##### Signature
   1. Endpoint
-    - https://leakvisiondata.atriumiot.com/logger/info/serial/begin/end/token
+    - https://leakvisiondata.atriumiot.com/v2/logger/info/serial/begin/end
   2. Params
    - serial: (string)
      - logger serial number
@@ -168,8 +213,6 @@ Returns all info for the logger within the date range
      - Date at which to start querying logger data.
    - end: (string - yyyy-MM-dd)
      - Date at which to finish querying logger data.
-   - token: (string )
-     - api authorization token.
       
 ##### Return Value
 
@@ -194,7 +237,7 @@ Returns all info for the logger within the date range
 
 ##### Example
 
-https://leakvisiondata.atriumiot.com/logger/info/12345/2021-01-01/2021-01-02/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/logger/info/12345/2021-01-01/2021-01-02
 
 <pre>
 [{
@@ -217,14 +260,14 @@ https://leakvisiondata.atriumiot.com/logger/info/12345/2021-01-01/2021-01-02/000
 
 <br />
 
-## signal(serial, begin, end, token)
+## signal(serial, begin, end)
 
 ##### Purpose
 Returns signal data for the logger within the date range
 
 ##### Signature
   1. Endpoint
-    - https://leakvisiondata.atriumiot.com/logger/signal/serial/begin/end/token
+    - https://leakvisiondata.atriumiot.com/v2/logger/signal/serial/begin/end
   2. Params
    - serial: (string)
      - logger serial number
@@ -232,8 +275,6 @@ Returns signal data for the logger within the date range
      - Date at which to start querying logger data.
    - end: (string - yyyy-MM-dd)
      - Date at which to finish querying logger data.
-   - token: (string)
-     - api authorization token.
       
 ##### Return Value
 
@@ -253,7 +294,7 @@ Returns signal data for the logger within the date range
 
 ##### Example
 
-https://leakvisiondata.atriumiot.com/logger/signal/12345/2021-01-01/2021-01-02/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/logger/signal/12345/2021-01-01/2021-01-02
 
 <pre>
 [{
@@ -271,19 +312,17 @@ https://leakvisiondata.atriumiot.com/logger/signal/12345/2021-01-01/2021-01-02/0
 
 <br />
 
-## summary(date, token)
+## summary(date)
 
 ##### Purpose
 Returns Enigma groups with leak count
 
 ##### Signature
    1. Endpoint
-    - https://leakvisiondata.atriumiot.com/group/summary/date/token
+    - https://leakvisiondata.atriumiot.com/v2/group/summary/date
    2. Params
    - date: (string - yyyy-MM-dd)
      - Date at which to get summary
-   - token: (string)
-     - api authorization token
      
 ##### Return Value
 
@@ -298,7 +337,7 @@ Returns Enigma groups with leak count
 
 ##### Example
 
-https://leakvisiondata.atriumiot.com/group/summary/2021-01-01/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/group/summary/2021-01-01
 
 <pre>
 [{
@@ -311,21 +350,19 @@ https://leakvisiondata.atriumiot.com/group/summary/2021-01-01/00000000-0000-0000
 
 <br />
 
-## group(id, date, token)
+## group(id, date)
 
 ##### Purpose
 Returns leak summary for group
 
 ##### Signature
    1. Endpoint
-    - https://leakvisiondata.atriumiot.com/group/id/date/token
+    - https://leakvisiondata.atriumiot.com/v2/group/id/date
   2. Params
    - id: (Int)
      - group Id (returned in the summary)
    - date: (string - yyyy-MM-dd)
      - Date at which to get summary.
-   - token: (string)
-     - api authorization token.
      
 ##### Return Value
 
@@ -348,7 +385,7 @@ Returns leak summary for group
 
 ##### Example
 
-https://leakvisiondata.atriumiot.com/group/1234/2021-01-01/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/group/1234/2021-01-01
 
 <pre>
 [{
@@ -369,19 +406,17 @@ https://leakvisiondata.atriumiot.com/group/1234/2021-01-01/00000000-0000-0000-00
 
 <br />
 
-## poi(id, token)
+## poi(id)
 
 ##### Purpose
 Returns PoI items for group
 
 ##### Signature
    1. Endpoint
-    - https://leakvisiondata.atriumiot.com/group/poi/id/token
+    - https://leakvisiondata.atriumiot.com/v2/group/poi/id
   2. Params
    - id: (Int)
      - group Id (returned in the summary)
-   - token: (string)
-     - api authorization token.
      
 ##### Return Value
 
@@ -466,7 +501,7 @@ Returns PoI items for group
 
 ##### Example
 
-https://leakvisiondata.atriumiot.com/group/poi/1234/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/group/poi/1234
 
 <pre>
 [{
@@ -555,21 +590,19 @@ https://leakvisiondata.atriumiot.com/group/poi/1234/00000000-0000-0000-0000-0000
 
 <br />
 
-## groupaudio(id, date, token)
+## groupaudio(id, date)
 
 ##### Purpose
 Returns audio data for group
 
 ##### Signature
    1. Endpoint
-    - https://leakvisiondata.atriumiot.com/group/audio/id/date/token
+    - https://leakvisiondata.atriumiot.com/v2/group/audio/id/date
   2. Params
    - id: (Int)
      - group Id (returned in the summary)
    - date: (string - yyyy-MM-dd)
      - Date at which to get audio.
-   - token: (string)
-     - api authorization token.
      
 ##### Return Value
 
@@ -583,7 +616,7 @@ Returns audio data for group
 
 ##### Example
 
-https://leakvisiondata.atriumiot.com/group/audio/1234/2021-01-01/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/group/audio/1234/2021-01-01
 
 <pre>
 [{
@@ -595,26 +628,24 @@ https://leakvisiondata.atriumiot.com/group/audio/1234/2021-01-01/00000000-0000-0
 
 <br />
 
-## loggerreport(date, token)
+## loggerreport(date)
 
 ##### Purpose
 Returns logger report csv
 
 ##### Signature
    1. Endpoint
-    - https://leakvisiondata.atriumiot.com/report/logger/date/token
+    - https://leakvisiondata.atriumiot.com/v2/report/logger/date
   2. Params
    - date: (string - yyyy-MM-dd)
      - Date at which to run the report.
-   - token: (string)
-     - api authorization token.
      
 ##### Return Value
   csv report
 
 ##### Example
 
-https://leakvisiondata.atriumiot.com/report/logger/2021-01-01/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/report/logger/2021-01-01
 
 <pre>
   DMA,ID,Logger,Commissioned,Latest,Latitude,Longitude,Battery,Signal
@@ -623,43 +654,38 @@ https://leakvisiondata.atriumiot.com/report/logger/2021-01-01/00000000-0000-0000
 
 <br />
 
-## dmareport(begin, end, token)
+## dmareport(begin, end)
 
 ##### Purpose
 Returns Phocus DMA report csv
 
 ##### Signature
    1. Endpoint
-    - https://leakvisiondata.atriumiot.com/report/dma/begin/end/token
+    - https://leakvisiondata.atriumiot.com/v2/report/dma/begin/end
   2. Params
    - begin: (string - yyyy-MM-dd HH:mm )
      - Date at which to start querying.
    - end: (string - yyyy-MM-dd HH:mm )
      - Date at which to finish querying.
-   - token: (string)
-     - api authorization token.
      
 ##### Return Value
   csv report
 
 ##### Example
 
-https://leakvisiondata.atriumiot.com/report/dma/2021-01-01%2000:00/2021-01-02%2000:00/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/report/dma/2021-01-01%2000:00/2021-01-02%2000:00
 
 <br />
 
-## poistatus(token)
+## poistatus
 
 ##### Purpose
 Update the status enum of a POI
 
 ##### Signature
    1. Endpoint
-    - https://leakvisiondata.atriumiot.com/poi/status/token
-   2. Params
-    - token: (string)
-     - api authorization token.
-   3. Method
+    - https://leakvisiondata.atriumiot.com/v2/poi/status
+   2. Method
     - PUT
 
 ##### Body
@@ -680,7 +706,7 @@ Boolean
 
 ##### Example
 
-https://leakvisiondata.atriumiot.com/poi/status/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/poi/status
 <pre>
 {
   "groupId": 123456,
@@ -695,18 +721,15 @@ true
 
 <br />
 
-## poiunassign(token)
+## poiunassign
 
 ##### Purpose
 Unassign technician from a POI
 
 ##### Signature
    1. Endpoint
-    - https://leakvisiondata.atriumiot.com/poi/unassign/token
-   2. Params
-    - token: (string)
-     - api authorization token.
-   3. Method
+    - https://leakvisiondata.atriumiot.com/v2/poi/unassign
+   2. Method
     - PUT
 
 ##### Body
@@ -726,7 +749,7 @@ Boolean
 
 ##### Example
 
-https://leakvisiondata.atriumiot.com/poi/unassign/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/poi/unassign
 <pre>
 {
   "groupId": 123456,
@@ -740,18 +763,15 @@ true
 
 <br />
 
-## poinoleak(token)
+## poinoleak
 
 ##### Purpose
 Update or set no leak found meta data in a POI
 
 ##### Signature
    1. Endpoint
-    - https://leakvisiondata.atriumiot.com/poi/noleak/token
-   2. Params
-    - token: (string)
-     - api authorization token.
-   3. Method
+    - https://leakvisiondata.atriumiot.com/v2/poi/noleak
+   2. Method
     - PUT
 
 ##### Body
@@ -774,7 +794,7 @@ Boolean
 
 ##### Example
 
-https://leakvisiondata.atriumiot.com/poi/noleak/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/poi/noleak
 <pre>
 {
   "groupId": 123456,
@@ -791,18 +811,15 @@ true
 
 <br />
 
-## poileak(token)
+## poileak
 
 ##### Purpose
 Update or set leak found meta data in a POI
 
 ##### Signature
    1. Endpoint
-    - https://leakvisiondata.atriumiot.com/poi/leak/token
-   2. Params
-    - token: (string)
-     - api authorization token.
-   3. Method
+    - https://leakvisiondata.atriumiot.com/v2/poi/leak
+   2. Method
     - PUT
 
 ##### Body
@@ -824,7 +841,7 @@ Boolean
 
 ##### Example
 
-https://leakvisiondata.atriumiot.com/poi/leak/00000000-0000-0000-0000-000000000000
+https://leakvisiondata.atriumiot.com/v2/poi/leak
 <pre>
 {
   "groupId": 123456,
