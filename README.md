@@ -39,9 +39,7 @@ This API provides access to the data recorded by a Phocus/Enigma logger. To use 
 ##### Purpose
 Returns authentication bearer token. This token must be passed as an Authorization header for every request
 <pre>
-{
-  bearer {token}
-}
+  Authorization: bearer {token}
 </pre>
 
 ##### Signature
