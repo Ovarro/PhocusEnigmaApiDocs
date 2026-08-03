@@ -37,7 +37,7 @@ This API provides access to the data recorded by a Phocus/Enigma logger. To use 
 ## auth
 
 ##### Purpose
-Returns authentication bearer token. This token must be passed as an Authorization header for every request. The token will expire after 24 hours.
+Returns authentication bearer token. This token must be passed as an Authorization header for every request. The token has a default expiry of 1 hour. An optional parameter can be passed to extend the life of the token (max 24).
 <pre>
   Authorization: bearer {token}
 </pre>
@@ -54,6 +54,7 @@ Returns authentication bearer token. This token must be passed as an Authorizati
 {
   "username": string,
   "password": string,
+  "tokenLifeHours": int (optional 1 -> 24)
 }
 </pre>
 
@@ -72,6 +73,7 @@ https://leakvisiondata.atriumiot.com/auth
 {
   "username": "user123",
   "password": "myP4ssword!"
+  "tokenLifeHours": 24
 }
 </pre>
 
