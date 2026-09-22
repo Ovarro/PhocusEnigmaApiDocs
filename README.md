@@ -14,10 +14,14 @@ This API provides access to the data recorded by a Phocus/Enigma logger. To use 
 - [*loggerinfo*](#loggerinfoserial-begin-end): Returns info for logger specified by date time range.
 - [*signal*](#signalserial-begin-end): Returns signal for logger specified by date time range.
 - [*summary*](#summarydate): Returns all Enigma groups with leak count.
+- [*groups*](#groups): Returns all groups.
 - [*group*](#groupid-date): Returns leak summary for group.
+- [*grouplogger*](#grouploggerid-begin-end): Returns all logger data for group by date range.
+- [*groupinfo*](#groupinfoid-begin-end): Returns all logger info for group by date range.
 - [*poi*](#poiid): Returns PoI items for group.
 - [*groupaudio*](#groupaudioid-date): Returns audio for group.
 - [*loggerreport*](#loggerreportdate): CSV logger report.
+- [*grouploggerreport*](#grouploggerreportid-date): CSV logger report for a group.
 - [*dmareport*](#dmareportbegin-end): CSV Phocus Dma report.
 - [*poistatus*](#poistatus): Update the status of a PoI.
 - [*poiunassign*](#poiunassign): Remove technician assignment.
@@ -350,6 +354,38 @@ https://leakvisiondata.atriumiot.com/v2/group/summary/2021-01-01
 
 <br />
 
+## groups
+
+##### Purpose
+Returns all group
+
+##### Signature
+   1. Endpoint
+    - https://leakvisiondata.atriumiot.com/v2/group
+  
+     
+##### Return Value
+
+<pre>
+[{
+  id: int,
+  name: string
+}]
+</pre>
+
+##### Example
+
+https://leakvisiondata.atriumiot.com/v2/group
+
+<pre>
+[{
+  "id": 123456,
+  "name": "group123"
+}]
+</pre>
+
+<br />
+
 ## group(id, date)
 
 ##### Purpose
@@ -359,8 +395,8 @@ Returns leak summary for group
    1. Endpoint
     - https://leakvisiondata.atriumiot.com/v2/group/id/date
   2. Params
-   - id: (Int)
-     - group Id (returned in the summary)
+   - id: (int)
+     - Group ID (returned in the summary)
    - date: (string - yyyy-MM-dd)
      - Date at which to get summary.
      
@@ -406,6 +442,145 @@ https://leakvisiondata.atriumiot.com/v2/group/1234/2021-01-01
 
 <br />
 
+## grouplogger(id, begin, end)
+
+##### Purpose
+Returns all data for the loggers in a group within the date range
+
+##### Signature
+  1. Endpoint
+    - https://leakvisiondata.atriumiot.com/v2/group/loggers/id/begin/end
+  2. Params
+   - id: (int)
+     - Group ID
+   - begin: (string - yyyy-MM-dd)
+     - Date at which to start querying logger data.
+   - end: (string - yyyy-MM-dd)
+     - Date at which to finish querying logger data.
+      
+##### Return Value
+
+<pre>
+[{
+  serial: string,
+  name: string,
+  epochs: [
+    {
+      battery: double,
+      cnv: int,
+      lcf: int,
+      latitude: double,
+      longitude: double,
+      temperature: double,
+      timestamp: string,
+      gain: int,
+      scale: int,
+      histograms: [
+        {
+          timestamp: string,
+          bins: [int]
+        }
+      ]
+    }
+  ]
+}]
+</pre>
+##### Example
+
+https://leakvisiondata.atriumiot.com/v2/logger/12345/2021-01-01/2021-01-02
+
+Example Output:
+
+<pre>
+[{
+  "serial": "123456",
+  "name": "123456"
+  "epochs": [
+    {
+      "battery": 99.9,
+      "cnv": 10,
+      "lcf": 1,
+      "latitude": 50.1,
+      "longitude": -1.1,
+      "temperature": 24.65,
+      "timestamp": "2022-03-25 12:00",
+      "gain": 4,
+      "scale": 123456,
+      "histograms": [
+        {
+          "timestamp": "2022-03-25 12:00",
+          "bins": [0,1,2,3,4,5,6,7,8,9]
+        }
+      ]
+    }
+  ]
+}]
+</pre>
+
+<br />
+
+## groupinfo(id, begin, end)
+
+##### Purpose
+Returns all info for the loggers in a group within the date range
+
+##### Signature
+  1. Endpoint
+    - https://leakvisiondata.atriumiot.com/v2/group/loggerinfo/id/begin/end
+  2. Params
+   - id: (int)
+     - Group ID
+   - begin: (string - yyyy-MM-dd)
+     - Date at which to start querying logger data.
+   - end: (string - yyyy-MM-dd)
+     - Date at which to finish querying logger data.
+      
+##### Return Value
+
+<pre>
+[{
+  serial: string,
+  name: string,
+  epochs: [
+    {
+      battery: double,
+      cnv: int,
+      lcf: int,
+      timestamp: string,
+      latitude: double,
+      longitude: double,
+      gain: int,
+      scale: int,
+    }
+  ]
+}]
+</pre>
+
+##### Example
+
+https://leakvisiondata.atriumiot.com/v2/logger/info/12345/2021-01-01/2021-01-02
+
+<pre>
+[{
+  "serial": "123456",
+  "name": "123456",
+  "epochs": [
+    {
+      "battery": 99.9,
+      "cnv": 10,
+      "lcf": 1,
+      "timestamp": "2022-03-25 12:00",
+      "latitude": 50.1,
+      "longitude": -1.1,
+      "gain": 4,
+      "scale": 123456,
+    }
+  ]
+}]
+</pre>
+
+<br />
+
 ## poi(id)
 
 ##### Purpose
@@ -415,8 +590,8 @@ Returns PoI items for group
    1. Endpoint
     - https://leakvisiondata.atriumiot.com/v2/group/poi/id
   2. Params
-   - id: (Int)
-     - group Id (returned in the summary)
+   - id: (int)
+     - Group ID (returned in the summary)
      
 ##### Return Value
 
@@ -599,8 +774,8 @@ Returns audio data for group
    1. Endpoint
     - https://leakvisiondata.atriumiot.com/v2/group/audio/id/date
   2. Params
-   - id: (Int)
-     - group Id (returned in the summary)
+   - id: (int)
+     - group ID (returned in the summary)
    - date: (string - yyyy-MM-dd)
      - Date at which to get audio.
      
@@ -646,6 +821,34 @@ Returns logger report csv
 ##### Example
 
 https://leakvisiondata.atriumiot.com/v2/report/logger/2021-01-01
+
+<pre>
+  DMA,ID,Logger,Commissioned,Latest,Latitude,Longitude,Battery,Signal
+  Dma,1234,123456,22/09/2021,05/12/2022,50.84410095,-1.064781666,80.56%,59%
+</pre>
+
+<br />
+
+## grouploggerreport(id, date)
+
+##### Purpose
+Returns logger report csv for a group
+
+##### Signature
+   1. Endpoint
+    - https://leakvisiondata.atriumiot.com/v2/report/group/id/date
+  2. Params
+   - id: (int)
+     - Group ID
+   - date: (string - yyyy-MM-dd)
+     - Date at which to run the report.
+     
+##### Return Value
+  csv report
+
+##### Example
+
+https://leakvisiondata.atriumiot.com/v2/report/group/12345/2021-01-01
 
 <pre>
   DMA,ID,Logger,Commissioned,Latest,Latitude,Longitude,Battery,Signal
